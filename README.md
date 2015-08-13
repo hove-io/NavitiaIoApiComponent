@@ -1,7 +1,7 @@
-Tyr Component
+NavitiaIoApi Component
 =============
 
-PHP library which makes curl calls to Tyr API.
+PHP library which makes curl calls to NavitiaIo API.
 
 
 ## Composer
@@ -11,7 +11,7 @@ Install via composer
 ``` js
 {
     "require": {
-        "canaltp/tyr-component": "1.x"
+        "canaltp/navitiaio-api-component": "1.x"
     }
 }
 ```
@@ -19,24 +19,25 @@ Install via composer
 
 ## Usage
 
-Instanciate TyrService as a plain PHP object:
+Instanciate NavitiaIoService as a plain PHP object:
 
 ``` php
-$tyrUrl = 'http://tyr.dev.canaltp.fr/v0/';
-$endPointId = 2;
+$navitiaIoApiUrl = 'http://navitia.local/';
+$user = 'my_user'
+$password = '********'
 
 // Instanciating api
-$tyrApi = new CanalTP\TyrComponent\TyrService($tyrUrl, $endPointId);
+$navitiaIoApiApi = new CanalTP\NavitiaIoApiComponent\NavitiaIoApiService($navitiaIoApiUrl, $user, $password);
 
-// Creating request
-$user = $tyrApi->createUser('email', 'login', 'user type');
+// Get users
+$response = $navitiaIoApiApi->getUsers();
 
-// Get last Guzzle response instance (usefull to get status code...)
-$response = $tyrApi->getLastResponse();
-$statusCode = $response->getStatusCode();
+foreach ($data->users as $user) {
+    // Do something here
+}
 ```
 
-See [full Tyr class](src/TyrService.php).
+See [full NavitiaIoApi class](src/NavitiaIoApiService.php).
 
 
 ### Testing
@@ -44,14 +45,15 @@ See [full Tyr class](src/TyrService.php).
 Mock Guzzle client:
 
 ``` php
-$tyrUrl = 'http://tyr.dev.canaltp.fr/v0/';
-$endPointId = 2;
+$navitiaIoApiUrl = 'http://navitiaIoApi.dev.canaltp.fr/v0/';
+$user = 'my_user'
+$password = '********'
 
-$tyrApi = new CanalTP\TyrComponent\TyrService($tyrUrl, $endPointId);
+$navitiaIoApiApi = new CanalTP\NavitiaIoApiComponent\NavitiaIoApiService($navitiaIoApiUrl, $user, $password);
 
 // Creating GuzzleHttp\Client mock...
 
-$tyrApi->setClient($mockedClient);
+$navitiaIoApiApi->setClient($mockedClient);
 ```
 
 

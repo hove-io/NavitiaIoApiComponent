@@ -1,13 +1,13 @@
 <?php
 
-namespace CanalTP\TyrComponent\Tests;
+namespace CanalTP\NavitiaIoApiComponent\Tests;
 
 use CanalTP\NavitiaIoApiComponent\NavitiaIoApiService;
 
 class NavitiaIoApiServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var TyrService
+     * @var NavitiaIoApiService
      */
     private $navitiaIoService;
 

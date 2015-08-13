@@ -57,7 +57,7 @@ class NavitiaIoApiService
      *
      * @param Client $client
      *
-     * @return TyrService
+     * @return NavitiaIoApiService
      */
     public function setClient(Client $client)
     {
@@ -73,7 +73,7 @@ class NavitiaIoApiService
      */
     public function getUsers()
     {
-        $response = $this->client->get('app_dev.php/api/users');
+        $response = $this->client->get('api/users');
 
         return json_decode((string) $response->getBody());
     }
