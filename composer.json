@@ -1,0 +1,16 @@
+{
+    "name": "canaltp/navitiaio-api-component",
+    "license": "GPL-3.0",
+    "type": "library",
+    "description": "PHP library which makes curl calls to NavitiaIo API.",
+    "homepage": "https://github.com/CanalTP/NavitiaIoApiComponent",
+    "keywords": ["php", "navitiaio", "api"],
+    "require": {
+        "php": ">=5.2",
+        "guzzlehttp/guzzle": "~5.0",
+        "phpunit/phpunit": "~4.3"
+    },
+    "autoload": {
+        "psr-4": { "CanalTP\\NavitiaIoApiComponent\\": "src/" }
+    }
+}
