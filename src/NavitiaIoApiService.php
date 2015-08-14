@@ -3,8 +3,6 @@
 namespace CanalTP\NavitiaIoApiComponent;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Message\Response;
-use GuzzleHttp\Event\CompleteEvent;
 
 class NavitiaIoApiService
 {
@@ -46,7 +44,7 @@ class NavitiaIoApiService
     {
         $client = new Client(array(
             'base_url' => $this->url,
-            'defaults' => $this->auth
+            'defaults' => $this->auth,
         ));
 
         return $client;
@@ -67,7 +65,7 @@ class NavitiaIoApiService
     }
 
     /**
-     * Get all users
+     * Get all users.
      *
      * @return \stdClass
      */

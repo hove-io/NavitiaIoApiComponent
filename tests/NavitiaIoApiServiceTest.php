@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\NavitiaIoApiComponent\Tests;
+namespace CanalTP\NavitiaIoApiComponent\tests;
 
 use CanalTP\NavitiaIoApiComponent\NavitiaIoApiService;
 
@@ -12,7 +12,7 @@ class NavitiaIoApiServiceTest extends \PHPUnit_Framework_TestCase
     private $navitiaIoService;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
