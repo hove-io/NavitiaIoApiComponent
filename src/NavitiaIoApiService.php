@@ -75,4 +75,17 @@ class NavitiaIoApiService
 
         return json_decode((string) $response->getBody());
     }
+
+    /**
+     * Get all users.
+     *
+     * @return \stdClass
+     */
+    public function findUsersBetweenDates($startDate, $endDate)
+    {
+        $query = ['start_date' => $startDate, 'end_date' => $endDate];
+        $response = $this->client->get('api/users', ['query' => $query]);
+
+        return json_decode((string) $response->getBody());
+    }
 }
