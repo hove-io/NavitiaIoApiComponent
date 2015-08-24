@@ -77,6 +77,21 @@ class NavitiaIoApiService
     }
 
     /**
+     * Get stat by name
+     *
+     * @param string $name
+     * @param array $parameters GET parameters
+     *
+     * @return \stdClass
+     */
+    public function getStats($name, $parameters = array())
+    {
+        $response = $this->client->get('api/stats/'.$name, ['query' => $parameters]);
+
+        return json_decode((string) $response->getBody());
+    }
+
+    /**
      * Get all users.
      *
      * @return \stdClass
