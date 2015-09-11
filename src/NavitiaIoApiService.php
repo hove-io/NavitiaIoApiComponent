@@ -2,7 +2,7 @@
 
 namespace CanalTP\NavitiaIoApiComponent;
 
-use GuzzleHttp\Client;
+use Guzzle\Http\Client;
 
 class NavitiaIoApiService
 {
@@ -29,7 +29,7 @@ class NavitiaIoApiService
     public function __construct($url, $authUser, $authPassword)
     {
         $this->url = $url;
-        $this->auth = ['auth' => [$authUser, $authPassword]];
+        $this->auth = ['user' => $authUser, 'password' => $authPassword];
         $this->authPassword = $authPassword;
 
         $this->setClient($this->createDefaultClient());
@@ -42,10 +42,7 @@ class NavitiaIoApiService
      */
     private function createDefaultClient()
     {
-        $client = new Client(array(
-            'base_url' => $this->url,
-            'defaults' => $this->auth,
-        ));
+        $client = new Client();
 
         return $client;
     }
@@ -71,9 +68,11 @@ class NavitiaIoApiService
      */
     public function getUsers()
     {
-        $response = $this->client->get('api/users');
+        $request = $this->client->get($this->url.'/api/users');
+        $request->setAuth($this->auth['user'], $this->auth['password']);
+        $response = $request->send();
 
-        return json_decode((string) $response->getBody());
+        return json_decode((string) $response->getBody(true));
     }
 
     /**
@@ -84,8 +83,10 @@ class NavitiaIoApiService
     public function findUsersBetweenDates($startDate, $endDate)
     {
         $query = ['start_date' => $startDate, 'end_date' => $endDate];
-        $response = $this->client->get('api/users', ['query' => $query]);
+        $request = $this->client->get('api/users', ['query' => $query]);
+        $request->setAuth($this->auth['user'], $this->auth['password']);
+        $response = $request->send();
 
-        return json_decode((string) $response->getBody());
+        return json_decode((string) $response->getBody(true));
     }
 }
