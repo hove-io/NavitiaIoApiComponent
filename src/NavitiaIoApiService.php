@@ -22,9 +22,11 @@ class NavitiaIoApiService
     private $client;
 
     /**
-     * Constructor.
+     * Constructor
      *
      * @param string $url
+     * @param string $authUser
+     * @param string $authPassword
      */
     public function __construct($url, $authUser, $authPassword)
     {
@@ -61,14 +63,29 @@ class NavitiaIoApiService
         return $this;
     }
 
-    /**
-     * Get all users.
-     *
-     * @return \stdClass
-     */
-    public function getUsers()
+    public function setUrl($url)
     {
-        $request = $this->client->get($this->url.'/api/users');
+        $this->url = $url;
+    }
+
+    /**
+     * Get all users
+     *
+     * @param int $page
+     * @param int $count
+     * @param string $sortField
+     * @param string $sortOrder
+     * @return mixed
+     */
+    public function getUsers($page = 0, $count = 10, $sortField = 'id', $sortOrder = 'asc')
+    {
+        $request = $this->client->get(
+            $this->url
+            .'/api/users?page='.$page
+            .'&count='.$count
+            .'&sort_by='.$sortField
+            .'&sort_order='.$sortOrder
+        );
         $request->setAuth($this->auth['user'], $this->auth['password']);
         $response = $request->send();
 
@@ -76,14 +93,27 @@ class NavitiaIoApiService
     }
 
     /**
-     * Get all users.
+     * Get all users
      *
-     * @return \stdClass
+     * @param $startDate
+     * @param $endDate
+     * @param int $page
+     * @param int $count
+     * @param string $sortField
+     * @param string $sortOrder
+     * @return mixed
      */
-    public function findUsersBetweenDates($startDate, $endDate)
+    public function findUsersBetweenDates($startDate, $endDate, $page = 0, $count = 10, $sortField = 'id', $sortOrder = 'asc')
     {
-        $query = ['start_date' => $startDate, 'end_date' => $endDate];
-        $request = $this->client->get('api/users', ['query' => $query]);
+        $request = $this->client->get(
+            $this->url
+            .'api/users?start_date='.$startDate
+            .'&end_date='.$endDate
+            .'&page='.$page
+            .'&count='.$count
+            .'&sort_by='.$sortField
+            .'&sort_order='.$sortOrder
+        );
         $request->setAuth($this->auth['user'], $this->auth['password']);
         $response = $request->send();
 
