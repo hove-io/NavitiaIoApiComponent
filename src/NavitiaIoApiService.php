@@ -12,28 +12,23 @@ class NavitiaIoApiService
     private $url;
 
     /**
-     * @var array
-     */
-    private $auth;
-
-    /**
      * @var Client
      */
     private $client;
 
     /**
+     * @var array
+     */
+    private $customers;
+
+    /**
      * Constructor
      *
-     * @param string $url
-     * @param string $authUser
-     * @param string $authPassword
+     * @param array $customers
      */
-    public function __construct($url, $authUser, $authPassword)
+    public function __construct($customers)
     {
-        $this->url = $url;
-        $this->auth = ['user' => $authUser, 'password' => $authPassword];
-        $this->authPassword = $authPassword;
-
+        $this->customers = $customers;
         $this->setClient($this->createDefaultClient());
     }
 
@@ -80,13 +75,13 @@ class NavitiaIoApiService
     public function getUsers($page = 0, $count = 10, $sortField = 'id', $sortOrder = 'asc')
     {
         $request = $this->client->get(
-            $this->url
+            $this->customers['url']
             .'/api/users?page='.$page
             .'&count='.$count
             .'&sort_by='.$sortField
             .'&sort_order='.$sortOrder
         );
-        $request->setAuth($this->auth['user'], $this->auth['password']);
+        $request->setAuth($this->customers['username'], $this->customers['password']);
         $response = $request->send();
 
         return json_decode((string) $response->getBody(true));
@@ -103,10 +98,16 @@ class NavitiaIoApiService
      * @param string $sortOrder
      * @return mixed
      */
-    public function findUsersBetweenDates($startDate, $endDate, $page = 0, $count = 10, $sortField = 'id', $sortOrder = 'asc')
-    {
+    public function findUsersBetweenDates(
+        $startDate,
+        $endDate,
+        $page = 0,
+        $count = 10,
+        $sortField = 'id',
+        $sortOrder = 'asc'
+    ) {
         $request = $this->client->get(
-            $this->url
+            $this->customers['url']
             .'api/users?start_date='.$startDate
             .'&end_date='.$endDate
             .'&page='.$page
@@ -114,7 +115,7 @@ class NavitiaIoApiService
             .'&sort_by='.$sortField
             .'&sort_order='.$sortOrder
         );
-        $request->setAuth($this->auth['user'], $this->auth['password']);
+        $request->setAuth($this->customers['username'], $this->customers['password']);
         $response = $request->send();
 
         return json_decode((string) $response->getBody(true));
