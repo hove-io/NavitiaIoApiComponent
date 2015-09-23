@@ -3,37 +3,28 @@
 namespace CanalTP\NavitiaIoApiComponent;
 
 use Guzzle\Http\Client;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class NavitiaIoApiService
 {
-    /**
-     * @var string
-     */
-    private $url;
-
-    /**
-     * @var array
-     */
-    private $auth;
-
     /**
      * @var Client
      */
     private $client;
 
     /**
+     * @var array
+     */
+    private $customer;
+
+    /**
      * Constructor
      *
-     * @param string $url
-     * @param string $authUser
-     * @param string $authPassword
+     * @param array $customers
      */
-    public function __construct($url, $authUser, $authPassword)
+    public function __construct(array $customers, TokenStorageInterface $tokenStorage)
     {
-        $this->url = $url;
-        $this->auth = ['user' => $authUser, 'password' => $authPassword];
-        $this->authPassword = $authPassword;
-
+        $this->customer = $customers[$tokenStorage->getToken()->getUser()->getCustomer()->getIdentifier()];
         $this->setClient($this->createDefaultClient());
     }
 
@@ -63,11 +54,6 @@ class NavitiaIoApiService
         return $this;
     }
 
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
-
     /**
      * Get all users
      *
@@ -80,13 +66,13 @@ class NavitiaIoApiService
     public function getUsers($page = 0, $count = 10, $sortField = 'id', $sortOrder = 'asc')
     {
         $request = $this->client->get(
-            $this->url
+            $this->customer['url']
             .'/api/users?page='.$page
             .'&count='.$count
             .'&sort_by='.$sortField
             .'&sort_order='.$sortOrder
         );
-        $request->setAuth($this->auth['user'], $this->auth['password']);
+        $request->setAuth($this->customer['username'], $this->customer['password']);
         $response = $request->send();
 
         return json_decode((string) $response->getBody(true));
@@ -103,10 +89,16 @@ class NavitiaIoApiService
      * @param string $sortOrder
      * @return mixed
      */
-    public function findUsersBetweenDates($startDate, $endDate, $page = 0, $count = 10, $sortField = 'id', $sortOrder = 'asc')
-    {
+    public function findUsersBetweenDates(
+        $startDate,
+        $endDate,
+        $page = 0,
+        $count = 10,
+        $sortField = 'id',
+        $sortOrder = 'asc'
+    ) {
         $request = $this->client->get(
-            $this->url
+            $this->customer['url']
             .'api/users?start_date='.$startDate
             .'&end_date='.$endDate
             .'&page='.$page
@@ -114,7 +106,7 @@ class NavitiaIoApiService
             .'&sort_by='.$sortField
             .'&sort_order='.$sortOrder
         );
-        $request->setAuth($this->auth['user'], $this->auth['password']);
+        $request->setAuth($this->customer['username'], $this->customer['password']);
         $response = $request->send();
 
         return json_decode((string) $response->getBody(true));
