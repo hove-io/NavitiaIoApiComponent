@@ -3,14 +3,10 @@
 namespace CanalTP\NavitiaIoApiComponent;
 
 use Guzzle\Http\Client;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class NavitiaIoApiService
 {
-    /**
-     * @var string
-     */
-    private $url;
-
     /**
      * @var Client
      */
@@ -19,16 +15,16 @@ class NavitiaIoApiService
     /**
      * @var array
      */
-    private $customers;
+    private $customer;
 
     /**
      * Constructor
      *
      * @param array $customers
      */
-    public function __construct($customers)
+    public function __construct($customers, TokenStorageInterface $tokenStorage)
     {
-        $this->customers = $customers;
+        $this->customer = $customers[$tokenStorage->getToken()->getUser()->getCustomer()->getIdentifier()];
         $this->setClient($this->createDefaultClient());
     }
 
@@ -58,11 +54,6 @@ class NavitiaIoApiService
         return $this;
     }
 
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
-
     /**
      * Get all users
      *
@@ -75,13 +66,13 @@ class NavitiaIoApiService
     public function getUsers($page = 0, $count = 10, $sortField = 'id', $sortOrder = 'asc')
     {
         $request = $this->client->get(
-            $this->customers['url']
+            $this->customer['url']
             .'/api/users?page='.$page
             .'&count='.$count
             .'&sort_by='.$sortField
             .'&sort_order='.$sortOrder
         );
-        $request->setAuth($this->customers['username'], $this->customers['password']);
+        $request->setAuth($this->customer['username'], $this->customer['password']);
         $response = $request->send();
 
         return json_decode((string) $response->getBody(true));
@@ -107,7 +98,7 @@ class NavitiaIoApiService
         $sortOrder = 'asc'
     ) {
         $request = $this->client->get(
-            $this->customers['url']
+            $this->customer['url']
             .'api/users?start_date='.$startDate
             .'&end_date='.$endDate
             .'&page='.$page
@@ -115,7 +106,7 @@ class NavitiaIoApiService
             .'&sort_by='.$sortField
             .'&sort_order='.$sortOrder
         );
-        $request->setAuth($this->customers['username'], $this->customers['password']);
+        $request->setAuth($this->customer['username'], $this->customer['password']);
         $response = $request->send();
 
         return json_decode((string) $response->getBody(true));
