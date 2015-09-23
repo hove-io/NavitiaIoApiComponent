@@ -22,7 +22,7 @@ class NavitiaIoApiService
      *
      * @param array $customers
      */
-    public function __construct($customers, TokenStorageInterface $tokenStorage)
+    public function __construct(array $customers, TokenStorageInterface $tokenStorage)
     {
         $this->customer = $customers[$tokenStorage->getToken()->getUser()->getCustomer()->getIdentifier()];
         $this->setClient($this->createDefaultClient());
