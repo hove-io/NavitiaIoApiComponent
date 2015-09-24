@@ -3,7 +3,6 @@
 namespace CanalTP\NavitiaIoApiComponent;
 
 use Guzzle\Http\Client;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class NavitiaIoApiService
 {
@@ -22,10 +21,19 @@ class NavitiaIoApiService
      *
      * @param array $customers
      */
-    public function __construct(array $customers, TokenStorageInterface $tokenStorage)
+    public function __construct()
     {
-        $this->customer = $customers[$tokenStorage->getToken()->getUser()->getCustomer()->getIdentifier()];
         $this->setClient($this->createDefaultClient());
+    }
+
+    /**
+     * Set Customer
+     *
+     * @return Client
+     */
+    public function setCustomer($customer)
+    {
+        $this->customer = $customer;
     }
 
     /**
@@ -66,7 +74,7 @@ class NavitiaIoApiService
     public function getUsers($page = 0, $count = 10, $sortField = 'id', $sortOrder = 'asc')
     {
         $request = $this->client->get(
-            $this->customer['url']
+            $this->customer['host']
             .'/api/users?page='.$page
             .'&count='.$count
             .'&sort_by='.$sortField
@@ -98,7 +106,7 @@ class NavitiaIoApiService
         $sortOrder = 'asc'
     ) {
         $request = $this->client->get(
-            $this->customer['url']
+            $this->customer['host']
             .'api/users?start_date='.$startDate
             .'&end_date='.$endDate
             .'&page='.$page
