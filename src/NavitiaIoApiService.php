@@ -21,9 +21,10 @@ class NavitiaIoApiService
      *
      * @param array $customers
      */
-    public function __construct()
+    public function __construct($customers)
     {
         $this->setClient($this->createDefaultClient());
+        $this->setCustomer($customers['navio']);
     }
 
     /**
@@ -107,7 +108,7 @@ class NavitiaIoApiService
     ) {
         $request = $this->client->get(
             $this->customer['host']
-            .'api/users?start_date='.$startDate
+            .'/api/users?start_date='.$startDate
             .'&end_date='.$endDate
             .'&page='.$page
             .'&count='.$count
