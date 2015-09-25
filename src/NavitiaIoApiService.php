@@ -83,7 +83,7 @@ class NavitiaIoApiService
         );
         $request->setAuth($this->customer['username'], $this->customer['password']);
         $response = $request->send();
-        
+
         return json_decode((string) $response->getBody(true));
     }
 
