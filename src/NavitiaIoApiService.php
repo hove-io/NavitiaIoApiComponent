@@ -72,7 +72,7 @@ class NavitiaIoApiService
      * @param string $sortOrder
      * @return mixed
      */
-    public function getUsers($page = 0, $count = 10, $sortField = 'id', $sortOrder = 'asc')
+    public function getUsers($page = 1, $count = 10, $sortField = 'id', $sortOrder = 'asc')
     {
         $request = $this->client->get(
             $this->customer['host']
