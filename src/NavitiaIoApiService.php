@@ -93,9 +93,9 @@ class NavitiaIoApiService
      * @param $username string
      * @return mixed
      */
-    public function getUser($username)
+    public function getUser($id)
     {
-        $request = $this->client->get($this->customer['host'].'/api/users/'.$username);
+        $request = $this->client->get($this->customer['host'].'/api/users/'.$id);
 
         $request->setAuth($this->customer['username'], $this->customer['password']);
         $response = $request->send();
