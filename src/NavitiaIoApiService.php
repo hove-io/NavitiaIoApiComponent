@@ -88,6 +88,22 @@ class NavitiaIoApiService
     }
 
     /**
+     * Get a specific user
+     *
+     * @param $username string
+     * @return mixed
+     */
+    public function getUser($id)
+    {
+        $request = $this->client->get($this->customer['host'].'/api/users/'.$id);
+
+        $request->setAuth($this->customer['username'], $this->customer['password']);
+        $response = $request->send();
+
+        return json_decode((string) $response->getBody(true));
+    }
+
+    /**
      * Get all users
      *
      * @param $startDate
