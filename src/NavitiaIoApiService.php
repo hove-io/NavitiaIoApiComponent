@@ -84,6 +84,7 @@ class NavitiaIoApiService
             .'&sort_by='.$sortField
             .'&sort_order='.$sortOrder
         );
+
         $request->setAuth($this->customer['username'], $this->customer['password']);
         $response = $request->send();
 
