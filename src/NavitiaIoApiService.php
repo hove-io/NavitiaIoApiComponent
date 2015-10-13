@@ -30,6 +30,8 @@ class NavitiaIoApiService
     /**
      * Set Customer
      *
+     * @param array $customer
+     *
      * @return Client
      */
     public function setCustomer($customer)
@@ -70,6 +72,7 @@ class NavitiaIoApiService
      * @param int $count
      * @param string $sortField
      * @param string $sortOrder
+     *
      * @return mixed
      */
     public function getUsers($page = 1, $count = 10, $sortField = 'id', $sortOrder = 'asc')
@@ -81,6 +84,7 @@ class NavitiaIoApiService
             .'&sort_by='.$sortField
             .'&sort_order='.$sortOrder
         );
+
         $request->setAuth($this->customer['username'], $this->customer['password']);
         $response = $request->send();
 
@@ -90,7 +94,8 @@ class NavitiaIoApiService
     /**
      * Get a specific user
      *
-     * @param $username string
+     * @param int $id
+     *
      * @return mixed
      */
     public function getUser($id)
@@ -106,12 +111,13 @@ class NavitiaIoApiService
     /**
      * Get all users
      *
-     * @param $startDate
-     * @param $endDate
+     * @param string $startDate
+     * @param string $endDate
      * @param int $page
      * @param int $count
      * @param string $sortField
      * @param string $sortOrder
+     *
      * @return mixed
      */
     public function findUsersBetweenDates(
