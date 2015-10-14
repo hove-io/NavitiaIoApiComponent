@@ -18,9 +18,10 @@ class NavitiaIoApiServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->navitiaIoApiService = new NavitiaIoApiService([
             'navio' => [
-                'host' => 'http://mock.ette',
+                'host' => 'navitia',
+                'url' => 'http://mock.ette',
                 'username' => 'user_test',
-                'password' => 'password_test',
+                'password' => 'password_test'
             ],
         ]);
     }
