@@ -78,7 +78,7 @@ class NavitiaIoApiService
     public function getUsers($page = 1, $count = 10, $sortField = 'id', $sortOrder = 'asc')
     {
         $request = $this->client->get(
-            $this->customer['host']
+            $this->customer['url']
             .'/api/users?page='.$page
             .'&count='.$count
             .'&sort_by='.$sortField
@@ -129,7 +129,7 @@ class NavitiaIoApiService
         $sortOrder = 'asc'
     ) {
         $request = $this->client->get(
-            $this->customer['host']
+            $this->customer['url']
             .'/api/users?start_date='.$startDate
             .'&end_date='.$endDate
             .'&page='.$page
