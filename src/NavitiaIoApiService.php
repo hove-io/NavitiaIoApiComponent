@@ -100,7 +100,7 @@ class NavitiaIoApiService
      */
     public function getUser($id)
     {
-        $request = $this->client->get($this->customer['host'].'/api/users/'.$id);
+        $request = $this->client->get($this->customer['url'].'/api/users/'.$id);
 
         $request->setAuth($this->customer['username'], $this->customer['password']);
         $response = $request->send();
