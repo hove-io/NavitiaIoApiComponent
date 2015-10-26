@@ -109,6 +109,26 @@ class NavitiaIoApiService
     }
 
     /**
+     * Edit an user fields.
+     *
+     * @param int $id
+     * @param array $fields
+     *
+     * @return mixed
+     */
+    public function patchUser($id, array $fields)
+    {
+        $request = $this->client->patch($this->customer['url'].'/api/users/'.$id);
+
+        $request->setAuth($this->customer['username'], $this->customer['password']);
+        $request->setBody(json_encode($fields));
+
+        $response = $request->send();
+
+        return json_decode($response->getBody(true));
+    }
+
+    /**
      * Get all users
      *
      * @param string $startDate
