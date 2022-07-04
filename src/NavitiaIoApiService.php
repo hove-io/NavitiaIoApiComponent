@@ -47,6 +47,7 @@ class NavitiaIoApiService
     private function createDefaultClient()
     {
         $client = new Client();
+        $client->setSslVerification(false, false);
 
         return $client;
     }
